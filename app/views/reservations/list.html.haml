@@ -1,0 +1,27 @@
+%nav.view_nav.pull-right
+  =link_to "view: calendar", reservations_path
+
+%h1 Reservations
+
+= link_to 'Reserve Your Event!', reserve_path, :class => 'btn btn-info'
+%br
+%br
+
+%table#reservations.table.table-striped.table-bordered
+  %tr
+    %th Reservation Name
+    %th Reservation Date
+    %th Participants
+    %th
+    %th
+  - @reservations.each do |reservation|
+    %tr
+      %td= reservation.name
+      %td= reservation.date.strftime("%a %b %d, %Y")
+      %td= reservation.participants
+      %td= link_to "show", reservation
+      - unless current_user.nil?
+        - if current_user.role == 'admin'
+          %td= link_to 'Delete', reservation, method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'Reserve Your Event!', reserve_path, :class => 'btn btn-info'

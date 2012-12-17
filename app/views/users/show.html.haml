@@ -1,0 +1,23 @@
+%p#notice= notice
+
+%h2 #{@user.fname} #{@user.lname}, #{@user.role}
+%p  #{@user.email} #{@user.number}
+
+%h3 Shifts
+
+%table#shifts.table.table-striped.table-bordered
+  %tr
+    %th Reservation Name
+    %th Reservation Date
+    %th
+    %th
+  - @shifts.each do |shift|
+    %tr
+      %td= shift.reservation.name
+      %td= shift.reservation.date.strftime("%a %b %d, %Y")
+      %td= link_to 'Drop Shift', shift, method: :put, data: { confirm: 'You may dropped this shift, but unless someone else takes it, you are still responsible for it.' }, :class => 'btn btn-danger btn-small'
+      - unless current_user.nil?
+        - if current_user.role == 'admin'
+          %td= link_to 'Delete', shift, method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'Back', users_path

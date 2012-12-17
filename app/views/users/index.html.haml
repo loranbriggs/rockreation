@@ -1,0 +1,22 @@
+%h1 Users
+
+%table#user-list.table.table-striped.table-bordered
+  %tr
+    %th First Name
+    %th Last Name
+    %th Email
+    %th Number
+    %th Role
+  - @users.each do |user|
+    %tr
+      %td= user.fname
+      %td= user.lname
+      %td= user.email
+      %td= user.number
+      %td= user.role
+      %td= link_to "show", user
+      - unless current_user.nil?
+        - if current_user.role == 'admin'
+          %td= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'Create new user', sign_up_path, :class => "btn btn-info"

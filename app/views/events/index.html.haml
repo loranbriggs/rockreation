@@ -1,0 +1,43 @@
+%h1 Reservations!
+
+= link_to 'Reserve you event today', reserve_path
+#events
+  #month
+    = link_to date: @date.prev_month do
+      %i.icon-circle-arrow-left
+    = @date.strftime("%B %Y")
+    = link_to date: @date.next_month do
+      %i.icon-circle-arrow-right
+
+  = calendar @date do |date|
+    = date.day
+    - if @events_by_date[date.to_s]
+      %ul
+        - @events_by_date[date.to_s].each do |event|
+          %li= link_to "#{event.name} (#{event.date.strftime('%-1I:%M %p')})", event
+
+
+
+
+
+
+
+  %table
+    %tr
+      %th Event Name
+      %th Event Date
+      %th Participants
+      %th
+      %th
+    - @events.each do |event|
+      %tr
+        %td= event.name
+        %td= event.date
+        %td= event.participants
+        %td= link_to "#{event.name}", event
+        - if current_user.nil? || current_user.role != 'admin'
+          %td
+        - else
+          %td= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }
+
+= link_to 'Reserve you event today', reserve_path

@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Event name:
+  = @event.name
+
+%p
+  %b Event date:
+  = @event.date
+
+%p
+  %b Participants
+  = @event.participants
+
+= link_to 'Back', reservations_path

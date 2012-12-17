@@ -1,0 +1,26 @@
+%h1 Reserve Your Event
+
+= form_for @reservation do |f|
+  - if @reservation.errors.any?
+    .error_messages
+      %h2 Form is invalid
+      %ul
+        - for message in @reservation.errors.full_messages
+          %li= message
+
+  %p
+    = f.label :reservation_name
+    %br
+    = f.text_field :name
+  %p
+    = f.label :reservation_date
+    = f.text_field :date
+    %br
+  %p
+    = f.label :participants
+    = f.collection_select :participants, Reservation::PARTICIPANTS, :to_s, :humanize
+    %br
+    %span *important we staff accordingly to the number you provide
+  %p.button
+    = submit_tag "Make Reservation", :class => "btn btn-info"
+

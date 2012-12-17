@@ -1,0 +1,29 @@
+%h1 Shifts
+
+%table#reservation-shifts.table.table-striped.table-bordered
+  %tr
+    %th Reservation Name
+    %th Reservation Date
+    %th Assigned to
+    %th
+    %th
+  - @xrefUR.each do |ur|
+    -next if ur.host
+    %tr
+      %td= ur.reservation.name
+      %td= ur.reservation.date.strftime("%a %b %d, %Y")
+      - if ur.user_id?
+        %td= ur.user.fname
+      - else
+        %td open
+      - if ur.drop_shift && ur.user_id == current_user.id
+        %td Shift Dropped Pending
+      - elsif ur.drop_shift || ur.user_id.nil?
+        %td= link_to 'Take Shift', ur, method: :put, data: { confirm: 'Are you sure you wish to take this shift? You will immediately be responsible for it. This cannot be undone.' }, :class => 'btn btn-success btn-small'
+      - elsif current_user.id == ur.user_id
+        %td= link_to 'Drop Shift', ur, method: :put, data: { confirm: 'You may dropped this shift, but unless someone else takes it, you are still responsible for it.' }, :class => 'btn btn-danger btn-small'
+      - else
+        %td covered
+      - unless current_user.nil?
+        - if current_user.role == 'admin'
+          %td= link_to 'Delete', ur, method: :delete, data: { confirm: 'Are you sure?' }

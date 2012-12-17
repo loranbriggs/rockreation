@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Reservation name:
+  = @reservation.name
+
+%p
+  %b Reservation date:
+  = @reservation.date.strftime("%a %b %d, %Y")
+
+%p
+  %b Participants
+  = @reservation.participants
+
+= link_to 'Back', reservations_path

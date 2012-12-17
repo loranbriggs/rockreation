@@ -1,0 +1,29 @@
+%nav.view_nav.pull-right
+  =link_to "view: list", events_list_path
+
+%h1 Event Calendar
+
+- unless current_user.nil?
+  - if current_user.role == 'admin'
+    = link_to 'Add Event', new_event_path, :class => 'btn btn-info'
+    %br
+    %br
+#events
+  #month
+    = link_to date: @date.prev_month do
+      %i.icon-circle-arrow-left
+    = @date.strftime("%B %Y")
+    = link_to date: @date.next_month do
+      %i.icon-circle-arrow-right
+
+  = calendar @date do |date|
+    = date.day
+    - if @events_by_date[date.to_s]
+      %ul
+        - @events_by_date[date.to_s].each do |event|
+          %li= link_to "#{event.name} (#{event.date.strftime('%-1I:%M %p')})", event
+
+- unless current_user.nil?
+  - if current_user.role == 'admin'
+    %br
+    = link_to 'Add Event', new_event_path, :class => 'btn btn-info'

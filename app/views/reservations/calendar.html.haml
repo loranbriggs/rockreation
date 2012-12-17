@@ -1,0 +1,24 @@
+%nav.view_nav.pull-right
+  =link_to "view: list", reservations_list_path
+
+%h1 Reservations!
+
+= link_to 'Reserve Your Event!', reserve_path, :class => 'btn btn-info'
+%br
+%br
+#reservations
+  #month
+    = link_to date: @date.prev_month do
+      %i.icon-circle-arrow-left
+    = @date.strftime("%B %Y")
+    = link_to date: @date.next_month do
+      %i.icon-circle-arrow-right
+
+  = calendar @date do |date|
+    = date.day
+    - if @reservations_by_date[date.to_s]
+      %ul
+        - @reservations_by_date[date.to_s].each do |reservation|
+          %li= link_to "#{reservation.name} (#{reservation.date.strftime('%-1I:%M %p')})", reservation
+%br
+= link_to 'Reserve Your Event!', reserve_path, :class => 'btn btn-info'

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title Rockreation
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    %nav.navbar
+      .navbar-inner
+        .container
+          #user_nav.navbar-inner.pull-right
+            - if current_user
+              Hello #{current_user.fname}!
+              = link_to log_out_path do
+                %i.icon-off
+                Sign Out
+            - else
+              = link_to "log in", log_in_path
+              or
+              = link_to "Sign up", sign_up_path
+          %a.btn.btn-navbar(data-target=".nav-collapse" data-toggle="collapse")
+            %span.icon-bar
+            %span.icon-bar
+            %span.icon-bar
+          = link_to home_path, :class => 'brand' do
+            %i.icon-home
+            Home
+          .nav-collapse.collapse
+            %ul.nav
+              - unless current_user.nil?
+                - if current_user.role != 'client'
+                  %li
+                    = link_to user_path(current_user) do
+                      %i.icon-columns
+                      My Shifts
+              %li
+                = link_to reservations_path do
+                  %i.icon-gift
+                  Reservations
+              %li
+                = link_to events_path do
+                  %i.icon-th
+                  Event Calendar
+              - unless current_user.nil?
+                - if current_user.role != 'client'
+                  %li
+                    = link_to reservation_shifts_path do
+                      %i.icon-th-list
+                      Shifts
+              - unless current_user.nil?
+                - if current_user.role == 'admin'
+                  %li
+                    = link_to users_path do
+                      %i.icon-user
+                      Users
+
+    - unless flash.nil?
+      .row-fluid
+        - flash.each do |name, msg|
+          = content_tag :div, msg, :id => "flash_#{name}", :class => "flash span3 offset1"
+
+    #page= yield
+

@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Reservation name:
+  = @xrefUR.reservation.name
+
+%p
+  %b Reservation date:
+  = @xrefUR.reservation.date
+
+%p
+  %b Participants
+  = @xrefUR.reservation.participants
+
+= link_to 'Back', reservations_path
