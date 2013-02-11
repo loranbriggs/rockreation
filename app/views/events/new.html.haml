@@ -1,26 +1,2 @@
 %h1 Reserve Your Event
-
-= form_for @event do |f|
-  - if @event.errors.any?
-    .error_messages
-      %h2 Form is invalid
-      %ul
-        - for message in @event.errors.full_messages
-          %li= message
-
-  %p
-    = f.label :event_name
-    %br
-    = f.text_field :name
-  %p
-    = f.label :event_date
-    = f.text_field :date
-    %br
-  %p
-    = f.label :participants
-    = f.collection_select :participants, Event::PARTICIPANTS, :to_s, :humanize
-    %br
-    %span *important we staff accordingly to the number you provide
-  %p.button
-    = f.submit
-
+= render 'form'

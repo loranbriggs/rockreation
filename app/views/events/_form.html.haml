@@ -1,0 +1,84 @@
+= form_for @event do |f|
+  - if @event.errors.any?
+    .alert.alert-error
+      %ul
+        - for message in @event.errors.full_messages
+          %li= message
+
+  .row-fluid
+    .span3
+      %p
+        = f.label :event_name
+        = f.text_field :name
+      %p
+        = f.label :event_date
+        = f.text_field :date
+    .span3
+      %p
+        - if current_user.role == 'admin'
+          = f.label :type
+          = f.collection_select :event_type, Event::TYPE, :to_s, :humanize
+          = f.label :detail
+          = f.collection_select :detail, Event::All_DETAIL, :to_s, :humanize
+        - else
+          = f.hidden_field :event_type, :value => 'Party'
+          = f.label :type
+          = f.collection_select :detail, Event::PARTY_DETAIL, :to_s, :humanize
+    .span3
+      %p
+        = f.label :participants, :class => 'label_inline_block no_width'
+        %span.red *We staff accordingly
+        = f.collection_select :participants, Event::PARTICIPANTS, :to_s, :humanize
+        %br
+      %p
+        = f.label :age_group
+      = f.collection_select :ageGroup, Event::AGE_GROUP, :to_s, :humanize
+  .row-fluid
+    .span6
+      = f.label :notes_or_special_needs
+      = f.text_area :note, :size => "60x5"
+    .span3
+      %p.alert
+        = f.label :location
+        = f.collection_select :location, Event::LOCATION, :to_s, :humanize
+  .row-fluid
+    .span6
+      - if current_user.role != 'admin'
+        %p.alert.alert-info
+          = f.check_box :cancellation_policy
+          = f.label :cancellation_policy, :class => 'label_inline_block'
+          %br
+          A deposit of $50 must be made in order to secure a reservation. This
+          deposit is non-refundable. A cancellation 48-hours or less before the
+          event will result in a charge of 50% of the event price. This charge
+          will be made to the credit card used for the deposit. Please contact
+          us early if you want to cancel/change your climbing session to avoid
+          incurring additional fees.
+        %p.alert.alert-info
+          = f.check_box :parking_policy
+          = f.label :parking_policy, :class => 'label_inline_block'
+          %br
+          Park only in spots marked "Rockreation" otherwise car will be towed
+          (including nights and weekends)
+        %p.alert.alert-info
+          = f.check_box :liability_policy
+          = f.label :liability_forms, :class => 'label_inline_block'
+          %br
+          Liabilty forms need to be filled out before arrive to the event.
+          Can be filled out
+          = link_to 'here', 'http://rockreation-la.com/online-waiver-forms/'
+          , only parents can fill out liability waivers. They must be filled-out
+          completely.
+        %p.alert.alert-info
+          = f.check_box :attendees_policy
+          = f.label :attendees_policy, :class => 'label_inline_block'
+          %br
+          All attendees (climbing or not must fill out a waiver). If most parents
+          are staying for a party of 15+ consider a rental. Call or email Colin at
+          360-790-4850 and colin@rockreation.com
+        %p
+      - if @event.new_record?
+        = submit_tag "Create Event", :class => "btn btn-info"
+      - else
+        = submit_tag "Update Event", :class => "btn btn-info"
+  

@@ -1,11 +1,11 @@
 class EventsController < ApplicationController
 
-  before_filter :signed_in_user, only: [:create]
+  before_filter :signed_in_user, only: [:create, :new, :show]
   before_filter :signed_in_admin, only: [:destroy]
   #after_filter :create_xref, only: [:create]
 
-  def calendar
-    @events = Event.all
+  def calendar_parties
+    @events = Event.find_by_sql("select * from Events where event_type = 'Party'")
     @events_by_date = @events.group_by { |e| e.date.strftime('%Y-%m-%d') }
     @date = params[:date] ? Date.parse(params[:date]) : Date.today
 
@@ -15,8 +15,28 @@ class EventsController < ApplicationController
     end
   end
 
-  def list
-    @events= Event.all
+  def list_parties
+    @events= Event.find_by_sql("select * from Events where event_type = 'Party'")
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @reservations }
+    end
+  end
+
+  def calendar_events
+    @events = Event.find_by_sql("select * from Events where event_type != 'Party'")
+    @events_by_date = @events.group_by { |e| e.date.strftime('%Y-%m-%d') }
+    @date = params[:date] ? Date.parse(params[:date]) : Date.today
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @events }
+    end
+  end
+
+  def list_events
+    @events= Event.find_by_sql("select * from Events where event_type != 'Party'")
 
     respond_to do |format|
       format.html # index.html.erb
@@ -26,6 +46,8 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    @shifts = Shift.where(:event_id => params[:id])
+    @seats = Seat.where(:event_id => params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -40,8 +62,18 @@ class EventsController < ApplicationController
   def create
     @event = Event.new(params[:event])
     if @event.save
-      redirect_to reservations_path, :notice => "Event created"
-#      @xref  = XrefUserEvent.create(:event_id => @event.id, :user_id => current_user.id, :host => true)
+      redirect_to events_path, :notice => "Event created"
+      if @event.event_type == "Party"
+        numShifts = @event.participants / 5
+        numShifts.times do
+          @shift  = Shift.create(:event_id => @event.id, :user_id => nil, :drop => 0)
+        end
+      else
+        numSeats = @event.participants
+        numSeats.times do
+          @seat  = Seat.create(:event_id => @event.id, :user_id => nil, :drop => 0)
+        end
+      end
     else
       render "new"
     end
@@ -58,25 +90,9 @@ class EventsController < ApplicationController
   def destroy
     @event = Event.find(params[:id])
     @event.destroy
-    redirect_to events_path, :alert => "Event deleted"
+    @shifts = Shift.destroy_all(:event_id => params[:id])
+    @seats  = Seat.destroy_all(:event_id => params[:id])
+    redirect_to events_list_path, :alert => "Event deleted"
   end
-
-  private
-
-    def signed_in_user
-      redirect_to log_in_path, notice: "Please sign in." unless current_user
-    end
-
-    def signed_in_admin
-      redirect_to reservations_path, notice: "Only an admin can delete a reservation" unless current_user.role == 'admin'
-    end
-
-#    def create_xref
-#      xref = XrefUserEvent.new
-#      xref.user_id = current_user.user_id
-#      xref.event_id = this.event_id
-#      xref.host = true
-#      xref.save
-#    end
 
 end

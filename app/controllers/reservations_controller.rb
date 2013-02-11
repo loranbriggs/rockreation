@@ -66,22 +66,4 @@ class ReservationsController < ApplicationController
     redirect_to reservations_list_path, :alert => "Reservation deleted"
   end
 
-  private
-
-    def signed_in_user
-      redirect_to log_in_path, notice: "Please sign in." unless current_user
-    end
-
-    def signed_in_admin
-      redirect_to reservations_path, notice: "Only an admin can delete a reservation" unless current_user.role == 'admin'
-    end
-
-#    def create_xref
-#      xref = XrefUserreservation.new
-#      xref.user_id = current_user.user_id
-#      xref.reservation_id = this.reservation_id
-#      xref.host = true
-#      xref.save
-#    end
-
 end

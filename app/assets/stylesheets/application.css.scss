@@ -13,6 +13,19 @@
  *= require_tree .
  */
 
+body {
+  background: url("http://www.rockreation-la.com/parts/Rockreation_BG.jpg") no-repeat scroll center top #0f0f0e;
+  background-image: url("http://www.rockreation-la.com/parts/Rockreation_BG.jpg");
+  background-position-x: 50%;
+  background-position-y: 0%;
+  background-size: initial;
+  background-repeat-x: no-repeat;
+  background-repeat-y: no-repeat;
+  background-attachment: scroll;
+  background-origin: initial;
+  background-clip: initial;
+  background-color: rgb(15, 15, 14);
+}
 #page {
   margin: 1% 5%;
 }
@@ -44,3 +57,16 @@
   color: #b94a48;
 }
 
+.label_inline_block {
+  display: inline-block;
+  width: 210px;
+}
+.no_width {
+  width: auto;
+}
+input {
+  width: 190px;
+}
+span.red {
+  color: red; 
+}

@@ -6,12 +6,16 @@
     = javascript_include_tag "application"
     = csrf_meta_tags
   %body
-    %nav.navbar
+    %nav.navbar.navbar-inverse
       .navbar-inner
         .container
           #user_nav.navbar-inner.pull-right
             - if current_user
               Hello #{current_user.fname}!
+              |
+              = link_to "Profile", current_user
+              //= link_to 'Update', edit_user_path(current_user)
+              |
               = link_to log_out_path do
                 %i.icon-off
                 Sign Out
@@ -35,9 +39,9 @@
                       %i.icon-columns
                       My Shifts
               %li
-                = link_to reservations_path do
+                = link_to parties_path do
                   %i.icon-gift
-                  Reservations
+                  Parties
               %li
                 = link_to events_path do
                   %i.icon-th
@@ -45,7 +49,7 @@
               - unless current_user.nil?
                 - if current_user.role != 'client'
                   %li
-                    = link_to reservation_shifts_path do
+                    = link_to shifts_path do
                       %i.icon-th-list
                       Shifts
               - unless current_user.nil?
@@ -58,7 +62,7 @@
     - unless flash.nil?
       .row-fluid
         - flash.each do |name, msg|
-          = content_tag :div, msg, :id => "flash_#{name}", :class => "flash span3 offset1"
+          = content_tag :div, msg, :id => "flash_#{name}", :class => "flash span4 offset1"
 
     #page= yield
 

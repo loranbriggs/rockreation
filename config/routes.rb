@@ -1,5 +1,18 @@
 Rockreation::Application.routes.draw do
 
+  get "seats" => "seats#list", :as => "seats"
+  get "seats/update"
+  get "seats/show"
+  get "seats/destroy"
+  resources :seats
+
+
+  get "shifts/show"
+  get "shifts" => "shifts#list",:as => "shifts"
+  get "shifts/update"
+  get "shifts/destroy"
+  resources :shifts
+
   get "xref_user_reservations/show"
   get "reservation_shifts" => "xref_user_reservations#list", :as => "reservation_shifts"
   resources :xref_user_reservations
@@ -14,9 +27,11 @@ Rockreation::Application.routes.draw do
 
   get "events/show"
   get "events/edit"
-  get "events_list" => "events#list", :as => "events_list"
-  get "events" => "events#calendar", :as => "events"
-  get "new_event" => "reservations#new", :as => "new_event"
+  get "parties" => "events#calendar_parties", :as => "parties"
+  get "parties_list" => "events#list_parties", :as => "parties_list"
+  get "events" => "events#calendar_events", :as => "events"
+  get "events_list" => "events#list_events", :as => "events_list"
+  get "new_event" => "events#new", :as => "new_event"
   resources :events
 
 

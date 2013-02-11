@@ -1,23 +1,43 @@
 %p#notice= notice
 
-%h2 #{@user.fname} #{@user.lname}, #{@user.role}
-%p  #{@user.email} #{@user.number}
+%h2 #{@user.fname} #{@user.lname}, #{@user.role} #{@user.detail}
+%label.label_inline_block Email:
+#{@user.email}
+%br
+%label.label_inline_block Phone:
+#{@user.phone} 
+%br
+%label.label_inline_block Address:
+#{@user.street1}
+%br
+%label.label_inline_block
+#{@user.street2}
+%br
+%label.label_inline_block
+#{@user.city} #{@user.state} #{@user.postcode}
 
-%h3 Shifts
+%br
+= link_to 'Update', edit_user_path(@user), :class => "btn btn-info"
+%br
 
-%table#shifts.table.table-striped.table-bordered
-  %tr
-    %th Reservation Name
-    %th Reservation Date
-    %th
-    %th
-  - @shifts.each do |shift|
+= unless @user.role == 'client'
+  %h3 Shifts
+
+  %table#shifts.table.table-striped.table-bordered
     %tr
-      %td= shift.reservation.name
-      %td= shift.reservation.date.strftime("%a %b %d, %Y")
-      %td= link_to 'Drop Shift', shift, method: :put, data: { confirm: 'You may dropped this shift, but unless someone else takes it, you are still responsible for it.' }, :class => 'btn btn-danger btn-small'
-      - unless current_user.nil?
-        - if current_user.role == 'admin'
-          %td= link_to 'Delete', shift, method: :delete, data: { confirm: 'Are you sure?' }
+      %th Event Name
+      %th Event Date
+      %th
+      %th
+    - @shifts.each do |shift|
+      %tr
+        %td= shift.event.name
+        %td= shift.event.date.strftime("%a %b %d, %Y")
+        %td= link_to 'Drop Shift', shift, method: :put, data: { confirm: 'You may dropped this shift, but unless someone else takes it, you are still responsible for it.' }, :class => 'btn btn-danger btn-small'
+        - unless current_user.nil?
+          - if current_user.role == 'admin'
+            %td= link_to 'Delete', shift, method: :delete, data: { confirm: 'Are you sure?' }
 
-= link_to 'Back', users_path
+- unless current_user.nil?
+  -if current_user.role == 'admin'
+    = link_to 'Back', users_path

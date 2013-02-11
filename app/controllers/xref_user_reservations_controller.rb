@@ -1,6 +1,6 @@
 class XrefUserReservationsController < ApplicationController
 
-  before_filter :signed_in_employee, only: [:take_shift]
+  before_filter :signed_in_employee, only: [:list]
 
   def list
     @xrefUR = XrefUserReservation.all
@@ -26,13 +26,13 @@ class XrefUserReservationsController < ApplicationController
       if @xrefUR.update_attributes(:drop_shift => 1 )
         redirect_to reservation_shifts_path, :notice => "shift drop initiated"
       else
-        redirect_to reservation_shifts_path, :notice => "an error occured during the shift drop proccess"
+        redirect_to reservation_shifts_path, :alert => "an error occured during the shift drop proccess"
       end
     else
       if @xrefUR.update_attributes(:user_id => current_user.id, :drop_shift => 0)
         redirect_to reservation_shifts_path, :notice => "shift taken"
       else
-        redirect_to reservation_shifts_path, :notice => "an error occured during the shift regestration proccess"
+        redirect_to reservation_shifts_path, :alert => "an error occured during the shift regestration proccess"
       end
     end
   end
@@ -45,7 +45,4 @@ class XrefUserReservationsController < ApplicationController
 
   private
 
-    def signed_in_employee
-      redirect_to reservation_shifts_path, alert: "Only an employee can take a shift" unless current_user.role == 'admin' || current_user.role == 'employee'
-    end
 end

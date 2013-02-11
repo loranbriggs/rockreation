@@ -7,16 +7,20 @@
     %th Email
     %th Number
     %th Role
+    %th
+    %th
+    %th
   - @users.each do |user|
     %tr
       %td= user.fname
       %td= user.lname
       %td= user.email
-      %td= user.number
+      %td= user.phone
       %td= user.role
-      %td= link_to "show", user
+      %td= link_to "Show", user
       - unless current_user.nil?
         - if current_user.role == 'admin'
+          %td= link_to 'Update', edit_user_path(user)
           %td= link_to 'Delete', user, method: :delete, data: { confirm: 'Are you sure?' }
 
 = link_to 'Create new user', sign_up_path, :class => "btn btn-info"
