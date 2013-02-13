@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :signed_in_admin, :signed_in_employee,
-    :signed_in_user, :mobile_device?
+    :signed_in_user, :mobile_device?, :withinDay
 
   private
 
@@ -31,5 +31,13 @@ class ApplicationController < ActionController::Base
 
   def mobile_device?
     request.user_agent =~ /Mobile|webOS/
+  end
+  
+  def withinDay(event)
+    if event.date - Time.current < 24.hours
+      true
+    else
+      false
+    end
   end
 end

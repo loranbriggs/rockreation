@@ -3,14 +3,12 @@ Rockreation::Application.routes.draw do
   get "seats" => "seats#list", :as => "seats"
   get "seats/update"
   get "seats/show"
-  get "seats/destroy"
   resources :seats
 
 
   get "shifts/show"
   get "shifts" => "shifts#list",:as => "shifts"
   get "shifts/update"
-  get "shifts/destroy"
   resources :shifts
 
   get "xref_user_reservations/show"

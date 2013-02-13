@@ -20,10 +20,14 @@ class SeatsController < ApplicationController
   def update
     @seat = Seat.find(params[:id])
     if current_user.id == @seat.user_id
-      if @seat.update_attributes(:drop => 1 )
-        redirect_to seats_path, :notice => "seat drop initiated"
+      if withinDay(@seat.event)
+        redirect_to seats_path, :alert => "cannont drop seat within 24 hours of event"
       else
-        redirect_to seats_path, :alert => "an error occured during the seat drop proccess"
+        if @seat.update_attributes(:user_id => nil, :drop => 0 )
+          redirect_to seats_path, :notice => "seat drop initiated"
+        else
+          redirect_to seats_path, :alert => "an error occured during the seat drop proccess"
+        end
       end
     else
       if @seat.update_attributes(:user_id => current_user.id, :drop => 0)
@@ -40,6 +44,6 @@ class SeatsController < ApplicationController
   def destroy
     @seat = Seat.find(params[:id])
     @seat.destroy
-    redirect_to seat_path, :alert => "shift deleted"
+    redirect_to seats_path, :alert => "shift deleted"
   end
 end

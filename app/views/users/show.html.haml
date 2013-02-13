@@ -38,6 +38,16 @@
           - if current_user.role == 'admin'
             %td= link_to 'Delete', shift, method: :delete, data: { confirm: 'Are you sure?' }
 
+%h3 Seats
+%table#shifts.table.table-striped.table-bordered
+  %tr
+    %th Event Name
+    %th Event Date
+    %th Assigned to
+    %th
+    %th
+    = render 'seats/list'
+
 - unless current_user.nil?
   -if current_user.role == 'admin'
     = link_to 'Back', users_path
