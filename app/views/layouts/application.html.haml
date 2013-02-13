@@ -61,13 +61,9 @@
                       Users
               %li
                 - if mobile_device?
-                  = link_to do
-                    %i.icon-desktop
-                    Full Site
+                  = link_to "Full Site", :mobile => 0
                 - elsif false
-                  = link_to do
-                    %i.icon-mobile-phone
-                    Mobile Site
+                  = link_to "Mobile Site", :mobile => 0
 
     - unless flash.nil?
       .row-fluid

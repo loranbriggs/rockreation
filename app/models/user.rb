@@ -10,11 +10,12 @@ class User < ActiveRecord::Base
 
   attr_accessor :password
   before_save :encrypt_password
+  before_save { |user| user.email = email.downcase }
 
   validates_confirmation_of :password, :on => :create
   validates_presence_of :password, :on => :create
   validates_presence_of :email
-  validates_uniqueness_of :email
+  validates_uniqueness_of :email, :case_sensitive => false
   validates_presence_of :phone
   validates_presence_of :street1
   validates_presence_of :city
@@ -26,6 +27,7 @@ class User < ActiveRecord::Base
   validates_presence_of :detail
 
   def self.authenticate(email, password)
+    email = email.downcase
     user = find_by_email(email)
     if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
