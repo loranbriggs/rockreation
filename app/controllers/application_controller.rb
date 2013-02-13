@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  helper_method :current_user, :signed_in_admin, :signed_in_employee, :signed_in_user
+  helper_method :current_user, :signed_in_admin, :signed_in_employee,
+    :signed_in_user, :mobile_device?
 
   private
 
@@ -28,4 +29,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def mobile_device?
+    request.user_agent =~ /Mobile|webOS/
+  end
 end

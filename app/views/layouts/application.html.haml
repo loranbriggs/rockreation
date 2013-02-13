@@ -59,6 +59,15 @@
                     = link_to users_path do
                       %i.icon-user
                       Users
+              %li
+                - if mobile_device?
+                  = link_to do
+                    %i.icon-desktop
+                    Full Site
+                - elsif false
+                  = link_to do
+                    %i.icon-mobile-phone
+                    Mobile Site
 
     - unless flash.nil?
       .row-fluid
