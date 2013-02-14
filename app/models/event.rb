@@ -8,12 +8,17 @@ class Event < ActiveRecord::Base
   
   attr_accessible :date, :name, :participants, :event_type, :detail, :note, :ageGroup, :location,
     :cancellation_policy, :parking_policy, :liability_policy, :attendees_policy
+  attr_accessor :validate_date
   has_many :shifts
   has_many :seats
   belongs_to :user
 
   validates_presence_of :name
   validates_presence_of :date
+  validates_date :date, :on => :create, :after => lambda { 1.week.from_now }, 
+    :after_message => 'must be a week away, call 310-207-7199 or email our
+      special event manager Colin at colin@rockreation.com to arrange otherwise.',
+      :if => :should_validate_password?
   validates_presence_of :participants
   validates_presence_of :event_type
   validates_presence_of :detail
@@ -24,4 +29,7 @@ class Event < ActiveRecord::Base
   validates_acceptance_of :liability_policy
   validates_acceptance_of :attendees_policy
 
+  def should_validate_password?
+    validate_date
+  end
 end

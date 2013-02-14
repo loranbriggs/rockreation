@@ -46,6 +46,7 @@ class UsersController < ApplicationController
     @user   = User.find(params[:id])
     @shifts = Shift.where(:user_id => params[:id])
     @seats  = Seat.where(:user_id => params[:id])
+    @events = Event.where(:user_id => params[:id])
 
     respond_to do |format|
       format.html # show.html.erb

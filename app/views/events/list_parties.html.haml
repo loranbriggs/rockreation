@@ -7,23 +7,7 @@
 %br
 %br
 
-%table#events.table.table-striped.table-bordered
-  %tr
-    %th Event Name
-    %th Event Date
-    %th Participants
-    %th
-    %th
-  - @events.each do |event|
-    %tr
-      %td= event.name
-      %td= event.date.strftime("%a %b %d, %Y")
-      %td= event.participants
-      %td= link_to "#{event.name}", event
-      - if current_user.nil? || current_user.role != 'admin'
-        %td
-      - else
-        %td= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure? This will delete all shifts and seats connected to this event.' }
+= render 'list'
 
 = link_to 'Reserve Your Party', new_event_path, :class => 'btn btn-info'
 %br

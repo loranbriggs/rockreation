@@ -2,7 +2,7 @@ class EventsController < ApplicationController
 
   before_filter :signed_in_user, only: [:create, :new, :show]
   before_filter :signed_in_admin, only: [:destroy]
-  #after_filter :create_xref, only: [:create]
+  #before_filter :set_validate_date, only: [:create]
 
   def calendar_parties
     @events = Event.find_by_sql("select * from Events where event_type = 'Party'")
@@ -61,6 +61,12 @@ class EventsController < ApplicationController
 
   def create
     @event = Event.new(params[:event])
+    @event.user_id = current_user.id
+    if current_user.role == 'client'
+      @event.validate_date = true
+    else
+      @event.validate_date = false
+    end
     if @event.save
       redirect_to events_path, :notice => "Event created"
       if @event.event_type == "Party"
@@ -95,4 +101,6 @@ class EventsController < ApplicationController
     redirect_to events_list_path, :alert => "Event deleted"
   end
 
+  #def set_validate_date
+  #end
 end

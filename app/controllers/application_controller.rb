@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :signed_in_admin, :signed_in_employee,
-    :signed_in_user, :mobile_device?, :withinDay
+    :signed_in_user, :mobile_device?, :withinDay, :contact_gym
 
   private
 
@@ -39,5 +39,9 @@ class ApplicationController < ActionController::Base
     else
       false
     end
+  end
+  
+  def contact_gym
+    "Call 310-207-7199 or email our special event manager Colin at colin@rockreation.com"
   end
 end

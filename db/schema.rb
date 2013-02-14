@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130206233439) do
+ActiveRecord::Schema.define(:version => 20130214033630) do
 
   create_table "class_seats", :force => true do |t|
     t.boolean  "drop"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(:version => 20130206233439) do
     t.string   "ageGroup"
     t.string   "location"
     t.string   "detail"
+    t.integer  "user_id"
   end
 
   create_table "reservations", :force => true do |t|

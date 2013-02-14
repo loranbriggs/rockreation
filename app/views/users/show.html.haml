@@ -39,6 +39,10 @@
 = unless @user.seats.count == 0
   %h3 Seats
   = render 'seats/list'
+  
+= unless @user.events.count == 0
+  %h3 Events
+  = render 'events/list'
 
 - unless current_user.nil?
   -if current_user.role == 'admin'
