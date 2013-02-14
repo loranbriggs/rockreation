@@ -21,20 +21,7 @@
 %br
 = unless @user.role == 'client' || @user.shifts.count == 0
   %h3 Shifts
-  %table#shifts.table.table-striped.table-bordered
-    %tr
-      %th Event Name
-      %th Event Date
-      %th
-      %th
-    - @shifts.each do |shift|
-      %tr
-        %td= shift.event.name
-        %td= shift.event.date.strftime("%a %b %d, %Y")
-        %td= link_to 'Drop Shift', shift, method: :put, data: { confirm: 'You may dropped this shift, but unless someone else takes it, you are still responsible for it.' }, :class => 'btn btn-danger btn-small'
-        - unless current_user.nil?
-          - if current_user.role == 'admin'
-            %td= link_to 'Delete', shift, method: :delete, data: { confirm: 'Are you sure?' }
+  = render 'shifts/list'
 
 = unless @user.seats.count == 0
   %h3 Seats
