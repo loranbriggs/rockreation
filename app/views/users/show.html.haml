@@ -19,15 +19,15 @@
 %br
 = link_to 'Update', edit_user_path(@user), :class => "btn btn-info"
 %br
-= unless @user.role == 'client' || @user.shifts.count == 0
+- unless @user.role == 'client' || @user.shifts.count == 0
   %h3 Shifts
   = render 'shifts/list'
 
-= unless @user.seats.count == 0
+- unless @user.seats.count == 0
   %h3 Seats
   = render 'seats/list'
   
-= unless @user.events.count == 0
+- unless @user.events.count == 0
   %h3 Events
   = render 'events/list'
 
