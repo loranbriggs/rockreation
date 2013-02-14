@@ -19,10 +19,8 @@
 %br
 = link_to 'Update', edit_user_path(@user), :class => "btn btn-info"
 %br
-
-= unless @user.role == 'client'
+= unless @user.role == 'client' || @user.shifts.count == 0
   %h3 Shifts
-
   %table#shifts.table.table-striped.table-bordered
     %tr
       %th Event Name
@@ -38,15 +36,9 @@
           - if current_user.role == 'admin'
             %td= link_to 'Delete', shift, method: :delete, data: { confirm: 'Are you sure?' }
 
-%h3 Seats
-%table#shifts.table.table-striped.table-bordered
-  %tr
-    %th Event Name
-    %th Event Date
-    %th Assigned to
-    %th
-    %th
-    = render 'seats/list'
+= unless @user.seats.count == 0
+  %h3 Seats
+  = render 'seats/list'
 
 - unless current_user.nil?
   -if current_user.role == 'admin'

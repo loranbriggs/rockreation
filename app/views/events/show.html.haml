@@ -41,15 +41,7 @@
           %td= link_to 'Delete', @shift, method: :delete, data: { confirm: 'Are you sure?' } 
 - if @event.event_type != 'Party'
   %h3 Class Seats
-
-  %table#shifts.table.table-striped.table-bordered
-    %tr
-      %th Event Name
-      %th Event Date
-      %th Assigned to
-      %th
-      %th
-      = render 'seats/list'
+  = render 'seats/list'
     
 
 = link_to 'Back', reservations_path

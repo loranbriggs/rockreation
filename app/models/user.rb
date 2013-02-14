@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
     :role, :detail, :membership, :note
   has_many :events
   has_many :shifts
+  has_many :seats
 
   attr_accessor :password
   before_save :encrypt_password
