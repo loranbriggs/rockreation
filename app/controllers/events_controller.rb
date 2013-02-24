@@ -85,12 +85,22 @@ class EventsController < ApplicationController
     end
   end
 
-  def update
-
+  def edit
+    @event = Event.find(params[:id])
   end
 
-  def edit
+  def update
+    @event = Event.find(params[:id])
 
+    if @event.update_attributes(params[:event])
+      if current_user.role != 'admin'
+        redirect_to events_path, :notice => 'Event was successfully updated'
+      else
+        redirect_to events_path, :notice => 'Event was successfully updated'
+      end
+    else
+      render :action => :edit
+    end
   end
 
   def destroy

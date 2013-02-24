@@ -11,6 +11,10 @@
       .navbar-inner
         .container
           #user_nav.navbar-inner.pull-right
+            - if destination
+              #location{:class => "#{destination.downcase.gsub(/\s+/,'')}" }
+                =destination
+            |
             - if current_user
               Hello #{current_user.fname}!
               |
@@ -31,47 +35,48 @@
           = link_to home_path, :class => 'brand' do
             %i.icon-home
             Home
-          .nav-collapse.collapse
-            %ul.nav
-              - unless current_user.nil?
-                - if current_user.role != 'client'
+          - if destination
+            .nav-collapse.collapse
+              %ul.nav
+                - unless current_user.nil?
+                  - if current_user.role != 'client'
+                    %li
+                      = link_to user_path(current_user) do
+                        %i.icon-columns
+                        My Shifts
+                %li
+                  = link_to parties_path do
+                    %i.icon-gift
+                    Parties
+                %li
+                  = link_to events_path do
+                    %i.icon-th
+                    Event Calendar
+                - unless current_user.nil?
+                  - if current_user.role == 'admin'
+                    %li
+                      = link_to seats_path do
+                        %i.icon-user
+                        Seats
+                %li
+                - unless current_user.nil?
+                  - if current_user.role != 'client'
+                    %li
+                      = link_to shifts_path do
+                        %i.icon-th-list
+                        Shifts
+                - unless current_user.nil?
+                  - if current_user.role == 'admin'
+                    %li
+                      = link_to users_path do
+                        %i.icon-user
+                        Users
+                - if false
                   %li
-                    = link_to user_path(current_user) do
-                      %i.icon-columns
-                      My Shifts
-              %li
-                = link_to parties_path do
-                  %i.icon-gift
-                  Parties
-              %li
-                = link_to events_path do
-                  %i.icon-th
-                  Event Calendar
-              - unless current_user.nil?
-                - if current_user.role == 'admin'
-                  %li
-                    = link_to seats_path do
-                      %i.icon-user
-                      Seats
-              %li
-              - unless current_user.nil?
-                - if current_user.role != 'client'
-                  %li
-                    = link_to shifts_path do
-                      %i.icon-th-list
-                      Shifts
-              - unless current_user.nil?
-                - if current_user.role == 'admin'
-                  %li
-                    = link_to users_path do
-                      %i.icon-user
-                      Users
-                      
-              %li
-                - if mobile_device?
-                  = link_to "Full Site", :mobile => 0
-                - elsif false
-                  = link_to "Mobile Site", :mobile => 0
+                    - if mobile_device?
+                      = link_to "Full Site", :mobile => 0
+                    - else
+                      = link_to "Mobile Site", :mobile => 1
 
     - unless flash.nil?
       .row-fluid

@@ -1,4 +1,5 @@
-%choose_destination
+#choose_destination
   %h1 Choose your Destination
-  = link_to image_tag( '/assets/LA.png'), root_url
-  = link_to image_tag( '/assets/CM.png'), root_url
+  .destination-links
+    = link_to image_tag( '/assets/LA.png'), events_path( :destination => 'Los Angeles')
+    = link_to image_tag( '/assets/CM.png'), events_path( :destination => 'Costa Mesa')

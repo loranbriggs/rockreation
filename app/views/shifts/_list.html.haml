@@ -10,7 +10,7 @@
       %td= shift.event.name
       %td= shift.event.date.strftime("%a %b %d, %Y")
       - if shift.user_id?
-        %td= shift.user.fname
+        %td= shift.user.fname + ' ' +shift.user.lname
       - else
         %td open
       - if shift.drop && shift.user_id == current_user.id
@@ -18,7 +18,7 @@
       - elsif shift.drop || shift.user_id.nil?
         %td= link_to 'Take Shift', shift, method: :put, data: { confirm: 'Are you sure you wish to take this shift? You will immediately be responsible for it. This cannot be undone.' }, :class => 'btn btn-success btn-small'
       - elsif current_user.id == shift.user_id
-        %td= link_to 'Drop Shift', shift, method: :put, data: { confirm: 'You may dropped this shift, but unless someone else takes it, you are still responsible for it.' }, :class => 'btn btn-danger btn-small'
+        %td= link_to 'Drop Shift', shift, method: :put, data: { confirm: 'You may drop this shift, but unless someone else takes it, you are still responsible for it.' }, :class => 'btn btn-danger btn-small'
       - else
         %td covered
       - unless current_user.nil?

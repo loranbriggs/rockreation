@@ -37,10 +37,7 @@
     .span6
       = f.label :notes_or_special_needs
       = f.text_area :note, :size => "60x5"
-    .span3
-      %p.alert
-        = f.label :location
-        = f.collection_select :location, Event::LOCATION, :to_s, :humanize
+      = f.hidden_field :location, :value => destination
   .row-fluid
     .span8
       - if current_user.role != 'admin'
@@ -66,7 +63,7 @@
           %br
           Liabilty forms need to be filled out before arrive to the event.
           Can be filled out
-          = link_to 'here', 'http://rockreation-la.com/online-waiver-forms/'
+          = link_to 'here', 'http://rockreation-la.com/online-waiver-forms/', :class => 'red'
           , only parents can fill out liability waivers. They must be filled-out
           completely.
         %p.alert.alert-info

@@ -67,6 +67,23 @@ body {
 input {
   width: 190px;
 }
-span.red {
+span.red, .red {
   color: red; 
 }
+
+.destination-links {
+  width: 50%;
+  display: block;
+  margin: 40px auto;
+  img { 
+    width: 40%;
+    padding: 4%;
+  }
+}
+
+#location {
+  display: inline;
+  margin-right: 50px;
+}
+.losangeles { color: blue; }
+.costamesa{ color: red; }

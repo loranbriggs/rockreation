@@ -1,8 +1,9 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :signed_in_admin, :signed_in_employee,
-    :signed_in_user, :mobile_device?, :withinDay, :contact_gym
-
+    :signed_in_user, :mobile_device?, :withinDay, :contact_gym, :destination,
+    :choosed_destination?
+  before_filter :set_destination, :prepare_for_mobile
   private
 
   def current_user
@@ -29,8 +30,34 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def choosed_destination?
+    if destination.nil?
+      redirect_to root_url, warning: "Please Choose a Destination"
+    end
+  end
+
+  def destination
+    if session[:destination_param]
+      session[:destination_param]
+    else
+      nil
+    end
+  end
+  
+  def set_destination
+    session[:destination_param] = params[:destination] if params[:destination] == 'Los Angeles' || params[:destination] == 'Costa Mesa'
+  end
+  
   def mobile_device?
-    request.user_agent =~ /Mobile|webOS/
+    if session[:mobile_param]
+      session[:mobile_param] == "1"
+    else
+      request.user_agent =~ /Mobile|webOS/
+    end
+  end
+  
+  def prepare_for_mobile
+    session[:mobile_param] = params[:mobile] if params[:mobile]
   end
   
   def withinDay(event)

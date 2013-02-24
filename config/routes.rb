@@ -24,7 +24,7 @@ Rockreation::Application.routes.draw do
 
 
   get "events/show"
-  get "events/edit"
+  #get "events/edit"
   get "parties" => "events#calendar_parties", :as => "parties"
   get "parties_list" => "events#list_parties", :as => "parties_list"
   get "events" => "events#calendar_events", :as => "events"

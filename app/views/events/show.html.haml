@@ -5,6 +5,11 @@
   = @event.name
 
 %p
+  %b Location:
+  %span{:class => "#{@event.location.downcase.gsub(/\s+/,'')}" }
+    = @event.location
+
+%p
   %b Event date:
   = @event.date
 
@@ -12,8 +17,13 @@
   %b Participants
   = @event.participants
 
+%p
+  %b Host
+  = @event.user.fname
+
+= link_to 'Update', edit_event_path(@event), :class => "btn btn-info"
 %br
-- if @event.event_type == 'Party' && ( current_user.role == 'employee' || current_user.role == 'admin')
+- if @event.event_type == 'Party' && current_user.role != 'client'
   %h3 Shifts
   
   %table#shifts.table.table-striped.table-bordered

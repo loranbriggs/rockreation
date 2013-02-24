@@ -885,6 +885,10 @@
 }
 
 @media (max-width: 480px) {
+  body {
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+  }
   .nav-collapse {
     -webkit-transform: translate3d(0, 0, 0);
   }

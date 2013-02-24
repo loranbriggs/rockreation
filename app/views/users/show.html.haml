@@ -1,6 +1,9 @@
 %p#notice= notice
 
-%h2 #{@user.fname} #{@user.lname}, #{@user.role} #{@user.detail}
+%h2 
+  #{@user.fname} #{@user.lname}
+  -if current_user.role != 'client'
+    , #{@user.role} #{@user.detail}
 %label.label_inline_block Email:
 #{@user.email}
 %br

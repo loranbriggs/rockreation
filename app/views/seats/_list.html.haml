@@ -2,7 +2,7 @@
   %tr
     %th Event Name
     %th Event Date
-    %th Assigned to
+    %th Student
     %th
     %th
   - @seats.each do |seat|
@@ -10,7 +10,10 @@
       %td= seat.event.name
       %td= seat.event.date.strftime("%a %b %d, %Y")
       - if seat.user_id?
-        %td= seat.user.fname
+        -if current_user.role == 'client'
+          %td= seat.user.fname
+        -else
+          %td= seat.user.fname + ' ' + seat.user.lname
       - else
         %td open
       - if seat.drop && seat.user_id == current_user.id

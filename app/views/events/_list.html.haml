@@ -5,13 +5,16 @@
     %th Participants
     %th
     %th
+    %th
   - @events.each do |event|
-    %tr
-      %td= event.name
-      %td= event.date.strftime("%a %b %d, %Y")
-      %td= event.participants
-      %td= link_to "#{event.name}", event
-      - if current_user.nil? || current_user.role != 'admin'
-        %td
-      - else
-        %td= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure? This will delete all shifts and seats connected to this event.' }
+    - if event.location == destination
+      %tr
+        %td= event.name
+        %td= event.date.strftime("%a %b %d, %Y")
+        %td= event.participants
+        %td= link_to "#{event.name}", event
+        - if current_user.nil? || current_user.role != 'admin'
+          %td
+        - else
+          %td= link_to 'Update', edit_event_path(event)
+          %td= link_to 'Delete', event, method: :delete, data: { confirm: 'Are you sure? This will delete all shifts and seats connected to this event.' }
