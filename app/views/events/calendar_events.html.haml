@@ -1,7 +1,10 @@
 %nav.view_nav.pull-right
   =link_to "view: list", events_list_path
 
-%h1 Event Calendar
+%h1
+  Event Calendar
+  %span{:class => "#{destination.downcase.gsub(/\s+/,'')}" }
+    = destination
 
 - unless current_user.nil?
   - if current_user.role == 'admin'
