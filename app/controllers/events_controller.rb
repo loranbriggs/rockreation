@@ -1,6 +1,7 @@
 class EventsController < ApplicationController
 
   before_filter :signed_in_user, only: [:create, :new, :show]
+  before_filter :choosed_destination?, only: [:create, :new, :show]
   before_filter :signed_in_admin, only: [:destroy]
   #before_filter :set_validate_date, only: [:create]
 
