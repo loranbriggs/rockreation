@@ -1,0 +1,12 @@
+%p
+  #{@user.fname},
+%p
+  Thank you for signing up for the Rockreation Reservation system.
+  Please ensure your information on our system is correct at
+  = link_to "#{@user.fname}'s profile", @user
+  
+%p
+  Please ensure that you and any of your guest have filled out an online
+  = link_to 'waiver', 'http://rockreation-la.com/online-waiver-forms/', :style => 'color: red;'
+  before you arive at the gym.
+  

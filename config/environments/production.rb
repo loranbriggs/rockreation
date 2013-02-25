@@ -19,7 +19,22 @@ Rockreation::Application.configure do
 
   # Generate digests for assets URLs
   config.assets.digest = true
+  
+  # Change mail delvery to either :smtp, :sendmail, :file, :test
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    address: "smtp.gmail.com",
+    port: 587,
+    domain: "gmail.com",
+    authentication: "plain",
+    enable_starttls_auto: true,
+    user_name: "info@codesquire.com", 
+    password: "infoInfo!"
+  }
 
+  # Specify what domain to use for mailer URLs
+  config.action_mailer.default_url_options = {host: "https://rockreation.herokuapp.com/"}
+  
   # Defaults to nil and saved in location specified by config.assets.prefix
   # config.assets.manifest = YOUR_PATH
 

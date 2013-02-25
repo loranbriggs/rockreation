@@ -69,6 +69,7 @@ class EventsController < ApplicationController
       @event.validate_date = false
     end
     if @event.save
+      UserMailer.alert_new_event(@event).deliver
       redirect_to events_path, :notice => "Event created"
       if @event.event_type == "Party"
         numShifts = @event.participants / 5
