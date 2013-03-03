@@ -1,5 +1,7 @@
 class Event < ActiveRecord::Base
-  PARTICIPANTS = %w[5 10 15 20 25 30 35 40 45 50 55 60 65 70 75 80 85 90 95]
+  #TIMES = %w[10:30 12:00 14:30 17:00 19:30]
+  TIMES = { '10:30' => '10:30', '12:00' => '12:00', '14:30' => '2:30', '17:00' => '5:00', '19:30' => '7:30'}
+  PARTICIPANTS = { '10' => '5-10', '15' => '11-15', '20' => '16-20', '25' => '21-25', '30' => '26-30'}
   DURATION =%w[60 90 120 180 240 270 300]
   HOUR_DURATION = %w[1 2 3 4]
   MIN_DURATION = %w[0 30]
@@ -10,11 +12,13 @@ class Event < ActiveRecord::Base
   All_DETAIL = %w[Birthday Teambuilding Youth_Program Meritit_Badge Fight_Gravity_One Fight_Gravity_Two Fight_Gravity_Three Lead Other(Specify_In_Notes)]
   
   attr_accessible :date, :name, :participants, :event_type, :detail, :note, :ageGroup, :location,
-    :cancellation_policy, :parking_policy, :liability_policy, :attendees_policy, :duration
-  attr_accessor :validate_date
+    :cancellation_policy, :parking_policy, :liability_policy, :attendees_policy, :duration, :time
+  attr_accessor :validate_date, :time
   has_many :shifts
   has_many :seats
   belongs_to :user
+  
+  before_save :convert_time
   
   validates_presence_of :name
   validates_presence_of :date
@@ -34,6 +38,12 @@ class Event < ActiveRecord::Base
 
   def should_validate_password?
     validate_date
+  end
+  
+  def convert_time
+    dateString = date.to_s
+    dateTime = dateString[0,4] + '-' + dateString[5,2] + '-' + dateString[8,2] + ' ' + time[0,2] + ':' + time[3,2] + ':00'
+    self.date = Time.zone.parse(dateTime)
   end
   
 end

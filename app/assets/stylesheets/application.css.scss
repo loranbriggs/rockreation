@@ -96,3 +96,25 @@ span.red, .red {
   color: pink;
   padding-left: 20px;
 }
+
+#menu-page ul {
+  list-style: none;
+  font-size: 3em;
+  color: #eee;
+  width: 75%; 
+  margin: 0 auto;
+}
+#menu-page li {
+  width: 45%;
+  float: left; 
+  text-align: center;
+  padding-bottom: 40px;
+}
+#menu-page ul i {
+  display: block;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+#menu-page a {
+  color: #abcdef;
+}

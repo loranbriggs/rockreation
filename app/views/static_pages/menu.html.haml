@@ -1,0 +1,37 @@
+#menu-page
+  - if current_user
+    %h2 Hello #{current_user.fname}!
+    %ul.menu
+      - if destination
+        - unless current_user.nil?
+          - if current_user.role != 'client'
+            %li
+              = link_to user_path(current_user) do
+                %i.icon-columns
+                My Shifts
+        %li
+          = link_to parties_path do
+            %i.icon-gift
+            Parties
+        %li
+          = link_to events_path do
+            %i.icon-th
+            Event Calendar
+        - unless current_user.nil?
+          - if current_user.role == 'admin'
+            %li
+              = link_to seats_path do
+                %i.icon-user
+                Seats
+        - unless current_user.nil?
+          - if current_user.role != 'client'
+            %li
+              = link_to shifts_path do
+                %i.icon-th-list
+                Shifts
+        - unless current_user.nil?
+          - if current_user.role == 'admin'
+            %li
+              = link_to users_path do
+                %i.icon-user
+                Users

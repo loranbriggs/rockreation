@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 jQuery ->
-  $('#event_date').datetimepicker
+  $('#event_date').datepicker
     dateFormat: 'yy-mm-dd'
     timeFormat: 'hh:mm tt'
     controlType: 'select'

@@ -42,6 +42,7 @@ Rockreation::Application.routes.draw do
   get "sign_up" => "users#new", :as => "sign_up"
   resources :users
 
+  get "menu" => "static_pages#menu", :as => "menu"
   get "home" => "static_pages#home", :as => "home"
   root :to => "static_pages#home"
   resources :static_pages

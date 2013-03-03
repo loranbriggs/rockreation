@@ -13,9 +13,11 @@
       %p
         = f.label :event_date
         = f.text_field :date
+        = f.label :event_time
+        = f.collection_select :time, Event::TIMES, :first, :last, {}, {:class => 'duration'}
       %p
-        = f.label :event_duration
         - if current_user.role == 'admin'
+          = f.label :event_duration
           = f.collection_select :duration, Event::DURATION, :to_s, :humanize, {:selected => 120}, {:class => 'duration'}
           minutes
         - else
@@ -35,7 +37,10 @@
       %p
         = f.label :participants, :class => 'label_inline_block no_width'
         %span.red *We staff accordingly
-        = f.collection_select :participants, Event::PARTICIPANTS, :to_s, :humanize
+        - if current_user.role == 'admin'
+          = f.number_field :participants
+        -else
+          = f.collection_select :participants, Event::PARTICIPANTS, :first, :last
         %br
       %p
         = f.label :age_group
