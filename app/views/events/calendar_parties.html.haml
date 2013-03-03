@@ -22,6 +22,7 @@
     - if @events_by_date[date.to_s]
       %ul
         - @events_by_date[date.to_s].each do |event|
-          %li= link_to "#{event.name} (#{event.date.strftime('%-1I:%M %p')})", event
+          - if event.location == destination
+            %li= link_to "#{event.name} (#{event.date.strftime('%-1I:%M %p')})", event
 %br
 = link_to 'Reserve Your Party', new_event_path, :class => 'btn btn-info'

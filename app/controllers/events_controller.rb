@@ -3,6 +3,8 @@ class EventsController < ApplicationController
   before_filter :signed_in_user, only: [:create, :new, :show]
   before_filter :choosed_destination?, only: [:create, :new, :show]
   before_filter :signed_in_admin, only: [:destroy]
+  before_filter :within_week, only: [:update]
+  before_filter :right_user, only: [:edit, :update]
   #before_filter :set_validate_date, only: [:create]
 
   def calendar_parties
@@ -111,6 +113,23 @@ class EventsController < ApplicationController
     redirect_to :back, :alert => "Event deleted"
   end
 
-  #def set_validate_date
-  #end
+  def within_week
+    @event = Event.find(params[:id])
+    if current_user.role == 'client'
+      if @event.date <= (Date.today + 7.days)
+        redirect_to :back, :alert => 'Cannot edit event within a week of the event,
+        call 310-207-7199 or email our special event manager Colin at 
+        colin@rockreation.com to arrange otherwise.'
+      end
+    end
+  end
+  
+  def right_user
+    @event = Event.find(params[:id])
+    if current_user.role == 'client'
+      if @event.user.id != current_user.id
+        redirect_to :back, :alert => 'Not your event to edit'
+      end
+    end
+  end
 end

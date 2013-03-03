@@ -15,7 +15,8 @@
 
 %p
   %b Event Duration:
-  = @event.duration
+  = @event.duration/60
+  hour(s)
 %p
   %b Participants
   = @event.participants

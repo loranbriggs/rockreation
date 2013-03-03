@@ -8,7 +8,13 @@
   - @shifts.each do |shift|
     %tr
       %td= shift.event.name
-      %td= shift.event.date.strftime("%a %b %d, %Y")
+      %td
+        = shift.event.date.strftime("%a %b %d, %Y")
+        %span.time
+          = shift.event.date.strftime("%-I:%M")
+          to
+          = ( (shift.event.date) + (shift.event.duration).minutes ).strftime("%-I:%M %p")
+          
       - if shift.user_id?
         %td= shift.user.fname + ' ' +shift.user.lname
       - else
