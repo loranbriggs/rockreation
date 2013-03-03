@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+  before_filter :correct_user, only: [:edit, :update, :show]
   before_filter :signed_in_admin, only: [:index, :destroy]
 
   def new

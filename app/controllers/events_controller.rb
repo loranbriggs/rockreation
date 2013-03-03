@@ -70,17 +70,18 @@ class EventsController < ApplicationController
     end
     if @event.save
       UserMailer.alert_new_event(@event).deliver
-      redirect_to events_path, :notice => "Event created"
       if @event.event_type == "Party"
         numShifts = @event.participants / 5
         numShifts.times do
           @shift  = Shift.create(:event_id => @event.id, :user_id => nil, :drop => 0)
         end
+        redirect_to parties_path, :notice => "Party created"
       else
         numSeats = @event.participants
         numSeats.times do
           @seat  = Seat.create(:event_id => @event.id, :user_id => nil, :drop => 0)
         end
+        redirect_to events_path, :notice => "Event created"
       end
     else
       render "new"
@@ -96,7 +97,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
 
     if @event.update_attributes(params[:event])
-      redirect_to events_path, :notice => 'Event was successfully updated'
+      redirect_to session.delete(:return_to), :notice => 'Event was successfully updated'
     else
       render :action => :edit
     end

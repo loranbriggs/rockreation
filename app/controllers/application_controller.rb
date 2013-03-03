@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
   helper_method :current_user, :signed_in_admin, :signed_in_employee,
-    :signed_in_user, :mobile_device?, :withinDay, :contact_gym, :destination,
-    :choosed_destination?
+    :signed_in_user, :correct_user, :mobile_device?, :withinDay, :contact_gym, 
+    :destination, :choosed_destination?
   before_filter :set_destination, :prepare_for_mobile
   private
 
@@ -28,6 +28,11 @@ class ApplicationController < ActionController::Base
     if current_user.nil?
       redirect_to log_in_path, alert: "Must be signed in to preform that action"
     end
+  end
+  
+  def correct_user
+    @user = User.find(params[:id])
+    redirect_to(root_path) unless current_user.id == @user.id || current_user.role == 'admin'
   end
 
   def choosed_destination?
