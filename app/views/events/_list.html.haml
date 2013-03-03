@@ -2,6 +2,7 @@
   %tr
     %th Event Name
     %th Event Date
+    %th Duration
     %th Participants
     %th
     %th
@@ -11,6 +12,7 @@
       %tr
         %td= event.name
         %td= event.date.strftime("%a %b %d, %Y")
+        %td= event.duration
         %td= event.participants
         %td= link_to "#{event.name}", event
         - if current_user.nil? || current_user.role != 'admin'

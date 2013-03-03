@@ -13,6 +13,17 @@
       %p
         = f.label :event_date
         = f.text_field :date
+      %p
+        = f.label :event_duration
+        - if false
+          = f.collection_select :hours, Event::HOUR_DURATION, :to_s, :humanize, {}, {:class => 'duration'}
+          hours
+          = f.collection_select :minutes, Event::MIN_DURATION, :to_s, :humanize, {}, {:class => 'duration'}
+        - if current_user.role == 'admin'
+          = f.collection_select :duration, Event::DURATION, :to_s, :humanize, {}, {:class => 'duration'}
+          minutes
+        - else
+          = f.hidden_field :duration, :value => 120 
     .span3
       %p
         - if current_user.role == 'admin'

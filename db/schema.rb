@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130214033630) do
+ActiveRecord::Schema.define(:version => 20130226211748) do
 
   create_table "class_seats", :force => true do |t|
     t.boolean  "drop"
@@ -23,14 +23,15 @@ ActiveRecord::Schema.define(:version => 20130214033630) do
     t.string   "name"
     t.datetime "date"
     t.integer  "participants"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                  :null => false
+    t.datetime "updated_at",                  :null => false
     t.string   "event_type"
     t.string   "note"
     t.string   "ageGroup"
     t.string   "location"
     t.string   "detail"
     t.integer  "user_id"
+    t.integer  "duration",     :default => 0
   end
 
   create_table "reservations", :force => true do |t|

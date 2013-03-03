@@ -89,17 +89,14 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    session[:return_to] ||= request.referer
   end
 
   def update
     @event = Event.find(params[:id])
 
     if @event.update_attributes(params[:event])
-      if current_user.role != 'admin'
-        redirect_to events_path, :notice => 'Event was successfully updated'
-      else
-        redirect_to events_path, :notice => 'Event was successfully updated'
-      end
+      redirect_to events_path, :notice => 'Event was successfully updated'
     else
       render :action => :edit
     end
@@ -110,7 +107,7 @@ class EventsController < ApplicationController
     @event.destroy
     @shifts = Shift.destroy_all(:event_id => params[:id])
     @seats  = Seat.destroy_all(:event_id => params[:id])
-    redirect_to events_list_path, :alert => "Event deleted"
+    redirect_to :back, :alert => "Event deleted"
   end
 
   #def set_validate_date
