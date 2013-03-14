@@ -35,3 +35,7 @@
               = link_to users_path do
                 %i.icon-user
                 Users
+  - else
+    = link_to "log in", log_in_path
+    or
+    = link_to "Sign up", sign_up_path

@@ -16,7 +16,7 @@
         = f.label :event_time
         = f.collection_select :time, Event::TIMES, :first, :last, {}, {:class => 'duration'}
       %p
-        - if current_user.role == 'admin'
+        - if current_user.role == 'admin' || current_user.detail == 'desk' || current_user.detail == 'manager'
           = f.label :event_duration
           = f.collection_select :duration, Event::DURATION, :to_s, :humanize, {:selected => 120}, {:class => 'duration'}
           minutes
@@ -24,7 +24,7 @@
           = f.hidden_field :duration, :value => 120 
     .span3
       %p
-        - if current_user.role == 'admin'
+        - if current_user.role == 'admin' || current_user.detail == 'desk' || current_user.detail == 'manager'
           = f.label :type
           = f.collection_select :event_type, Event::TYPE, :to_s, :humanize
           = f.label :detail
@@ -37,7 +37,7 @@
       %p
         = f.label :participants, :class => 'label_inline_block no_width'
         %span.red *We staff accordingly
-        - if current_user.role == 'admin'
+        - if current_user.role == 'admin' || current_user.detail == 'desk' || current_user.detail == 'manager'
           = f.number_field :participants
         -else
           = f.collection_select :participants, Event::PARTICIPANTS, :first, :last
